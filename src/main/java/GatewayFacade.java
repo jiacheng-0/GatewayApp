@@ -9,6 +9,10 @@ interface ServiceInterface {
     public void processService(Command command);
 }
 
+interface ServiceFactoryInterface {
+    public void invokeService(Command command);
+}
+
 class ServiceType {
 
 }
@@ -18,6 +22,15 @@ class CheckoutService extends ServiceType implements ServiceInterface {
     @Override
     public void processService(Command command) {
         System.out.println("Processed Checkout");
+    }
+}
+
+class CheckoutServiceFactory implements ServiceFactoryInterface {
+
+    @Override
+    public void invokeService(Command command) {
+        CheckoutService cs = new CheckoutService();
+        cs.processService(command);
     }
 }
 
@@ -86,5 +99,9 @@ class GatewayFacade {
 
         service = new ShippingService();
         gatewayFacade.invokeService(service, command);
+
+        System.out.println("Task 3:");
+        CheckoutServiceFactory csf = new CheckoutServiceFactory();
+        csf.invokeService(command);
     }
 }
