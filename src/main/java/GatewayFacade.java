@@ -47,8 +47,14 @@ class ShippingService extends ServiceType implements ServiceInterface {
 
 class GatewayFacade {
 
-    public GatewayFacade() {
+    private GatewayFacade() {
 
+    }
+
+    public static final GatewayFacade INSTANCE = new GatewayFacade();
+
+    public static GatewayFacade getINSTANCE() {
+        return INSTANCE;
     }
 
     public void invokeService(ServiceType service, Command command) {
