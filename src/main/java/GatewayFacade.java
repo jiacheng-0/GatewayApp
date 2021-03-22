@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 class Command {
     @Override
     public String toString() {
@@ -34,11 +36,30 @@ class CheckoutServiceFactory implements ServiceFactoryInterface {
     }
 }
 
-class ItemSubjectService extends ServiceType implements ServiceInterface {
+class ItemSubjectService extends ServiceType implements ServiceInterface, ItemSubjectInterface {
+
+    ArrayList<ItemObserverInterface> serviceList = new ArrayList<>();
 
     @Override
     public void processService(Command command) {
         System.out.println("Processed Item Subject");
+    }
+
+    @Override
+    public void register(ItemObserverInterface anObserver) {
+        serviceList.add(anObserver);
+    }
+
+    @Override
+    public void unregister(ItemObserverInterface anObserver) {
+        serviceList.remove(anObserver);
+    }
+
+    @Override
+    public void notifyRegisteredUsers() {
+        for (ItemObserverInterface item: serviceList) {
+
+        }
     }
 }
 
@@ -104,4 +125,18 @@ class GatewayFacade {
         CheckoutServiceFactory csf = new CheckoutServiceFactory();
         csf.invokeService(command);
     }
+}
+
+// Task 4
+interface ItemSubjectInterface {
+
+    public void register(ItemObserverInterface anObserver);
+
+    public void unregister(ItemObserverInterface anObserver);
+
+    public void notifyRegisteredUsers();
+}
+
+interface ItemObserverInterface {
+
 }
